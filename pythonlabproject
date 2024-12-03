@@ -1,0 +1,45 @@
+import qrcode
+
+# Function to generate QR code
+def generate_qr_code(data: str, filename: str):
+    """Generate a QR code for the given data and save it as an image file."""
+    qr = qrcode.QRCode(
+        version=1,  # Controls the size of the QR code
+        error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
+        box_size=10,  # Size of each box in the QR code grid
+        border=4,  # Border thickness
+    )
+    qr.add_data(data)  # Add the data to the QR code
+    qr.make(fit=True)
+
+    # Create an image from the QR code
+    img = qr.make_image(fill='black', back_color='white')
+
+    # Save the image
+    img.save(filename)
+    print(f"QR Code saved as {filename}")
+
+# Main function to input book details and generate the QR code
+def main():
+    print("Welcome to the 10 Books QR Code Generator!")
+    
+    books_info = []
+    for i in range(1, 11):  # Loop for 10 books
+        print(f"\nEnter details for Book {i}:")
+        title = input("Title: ")
+        author = input("Author: ")
+        description = input("Short Description: ")
+        
+        # Format the book info
+        book_details = f"Title: {title}\nAuthor: {author}\nDescription: {description}\n\n"
+        books_info.append(book_details)
+    
+    # Combine all book info into a single string
+    all_books_data = "".join(books_info)
+
+    # Generate QR Code with the combined data
+    filename = "books_qr.png"
+    generate_qr_code(all_books_data, filename)
+
+if __name__ == "__main__":
+    main()
